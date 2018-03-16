@@ -8,6 +8,7 @@ namespace ITI.Work
     {
         EngineState _state;
 
+        // je suis con
         public void Work()
         {
             Console.WriteLine( "Hello" );
