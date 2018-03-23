@@ -20,43 +20,50 @@ namespace ITI.Work
 
     public class KrabouilleStream : Stream
     {
+        Stream _inner;
+        KrabouilleMode _mode;
+        string _password;
+
         public KrabouilleStream( Stream inner, KrabouilleMode mode, string password )
         {
+            _inner = inner;
+            _mode = mode;
+            _password = password;
         }
 
-        public override bool CanRead => throw new NotImplementedException();
+        public override bool CanRead { get; }
+                                     
+        public override bool CanSeek { get; }
+                                     
+        public override bool CanWrite { get; }
 
-        public override bool CanSeek => throw new NotImplementedException();
-
-        public override bool CanWrite => throw new NotImplementedException();
-
-        public override long Length => throw new NotImplementedException();
+        public override long Length => throw new NotSupportedException();
 
         public override long Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public override void Flush()
         {
-            throw new NotImplementedException();
+            _inner.Flush();
         }
 
         public override int Read( byte[] buffer, int offset, int count )
         {
-            throw new NotImplementedException();
+            return _inner.Read( buffer, offset, count );
         }
 
         public override long Seek( long offset, SeekOrigin origin )
         {
-            throw new NotImplementedException();
+            return _inner.Seek( offset, origin );
         }
 
         public override void SetLength( long value )
         {
-            throw new NotImplementedException();
+            _inner.SetLength( value );
         }
 
         public override void Write( byte[] buffer, int offset, int count )
         {
-            throw new NotImplementedException();
+            _inner.Write( buffer, offset, count );
         }
     }
 }
