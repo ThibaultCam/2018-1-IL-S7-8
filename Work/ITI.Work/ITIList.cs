@@ -22,7 +22,7 @@ namespace ITI.Work
 
         public int Count => _count;
 
-        public int this[ int index ]
+        public int this[int index]
         {
             get
             {
@@ -39,19 +39,55 @@ namespace ITI.Work
         public void RemoveAt( int index )
         {
             if( index < 0 || index >= _count ) throw new IndexOutOfRangeException();
-            Array.Copy( _tab, index + 1, _tab, index, _count - index );
+            //Array.Copy( _tab, index + 1, _tab, index, _count - index );
+            for( int i = 0; i < _count; i++ )
+            {
+                if( i > index )
+                {
+                    _tab[i - 1] = _tab[i];
+                }
+            }
             --_count;
         }
 
         public void InsertAt( int index, int value )
         {
-            if( index >= _tab.Length )
+            if( index < 0 || index > _count ) throw new IndexOutOfRangeException();
+            int tmp = -1;
+            if( _tab.Length > _count + 1 )
             {
-                var newTab = new int[index];
-                Array.Copy( _tab, newTab, index );
-                _tab = newTab;
+                for( int i = 0; i <= _count; i++ )
+                {
+                    if( i == index )
+                    {
+                        tmp = _tab[i];
+                        _tab[i] = value;
+                    }
+                    else if( i > index )
+                    {
+                        value = _tab[i];
+                        _tab[i] = tmp;
+                        tmp = value;
+                    }
+                    else if( i < index )
+                        _tab[i] = _tab[i];
+                }
             }
-            _tab[index] = value;
+            else
+            {
+                int[] newList = new int[Count + 1];
+                for( int i = 0; i <= _count; i++ )
+                {
+                    if( i == index )
+                        newList[i] = value;
+                    else if( i > index )
+                        newList[i] = _tab[i - 1];
+                    else if( i < index )
+                        newList[i] = _tab[i];
+                }
+                _tab = newList;
+            }
+            _count++;
         }
 
         public int IndexOf( int i )
